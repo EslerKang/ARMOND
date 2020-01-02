@@ -10,7 +10,6 @@ cap.set(4, 480)
 face_cascade = cv2.CascadeClassifier('haarcascade_frontface.xml')
 
 while(True):
-    # frame 별로 capture 한다
     ret, frame = cap.read()
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
