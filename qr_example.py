@@ -24,8 +24,8 @@ if cap.isOpened():
         for obj in decodedObjects:
 
             # QR 코드값 화면에 출력
-            cv2.putText(frame, (str(obj.data).split('_'))[len(str(obj.data).split('_'))-1], (50, 50), font, 2, (255, 0,
-                                                                                                                 0), 3)
+            cv2.putText(frame, (str(obj.data).split('_'))[len(str(obj.data).split('_'))-1], (50, 50), font, 2,
+                        (255, 0, 0), 3)
             # QR 코드값 검사 후 표시(추후 서버로 다이렉팅 혹은 데이터베이스 활용(?))/Upper, Front 색 다르게 매칭
             if str(obj.data).find("armond_project_") >= 0:
                 # QR 코드 둘레에 사격형 표시
