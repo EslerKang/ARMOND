@@ -11,6 +11,7 @@ cap.set(3, 640)
 
 # 높이
 cap.set(4, 480)
+
 if cap.isOpened():
     detector = cv2.QRCodeDetector()
     while True:
@@ -29,23 +30,21 @@ if cap.isOpened():
             if str(obj.data).find("armond_project_") >= 0:
                 # QR 코드 둘레에 사격형 표시
 
+                # Upper, Front와 색상 쌍
+                up_fro = {'_upper_': (255, 0, 0), '_front_': (0, 255, 0)}
+
                 for i in range(0, 3):
-                    if str(obj.data).find("_upper_") >= 0:
-                        cv2.line(frame, (obj.polygon[i].x, obj.polygon[i].y), (obj.polygon[i + 1].x,
-                                                                               obj.polygon[i + 1].y), (255, 0, 0), 3)
-                        if i == 0:
-                            cv2.line(frame, (obj.polygon[0].x, obj.polygon[0].y), (obj.polygon[3].x, obj.polygon[3].y),
-                                     (255, 0, 0), 3)
-                    if str(obj.data).find("_front_") >= 0:
-                        cv2.line(frame, (obj.polygon[i].x, obj.polygon[i].y), (obj.polygon[i + 1].x,
-                                                                               obj.polygon[i + 1].y), (0, 255, 0), 3)
-                        if i == 0:
-                            cv2.line(frame, (obj.polygon[0].x, obj.polygon[0].y), (obj.polygon[3].x, obj.polygon[3].y),
-                                     (0, 255, 0), 3)
+                    for j in list(up_fro.keys()):
+                        if str(obj.data).find(j) >= 0:
+                            cv2.line(frame, (obj.polygon[i].x, obj.polygon[i].y), (obj.polygon[i + 1].x,
+                                                                                   obj.polygon[i + 1].y), up_fro[j], 3)
+                            if i == 0:
+                                cv2.line(frame, (obj.polygon[0].x, obj.polygon[0].y), (obj.polygon[3].x,
+                                                                                       obj.polygon[3].y), up_fro[j], 3)
 
         cv2.imshow('frame', frame)
         # w 키 입력시 종료
-        if cv2.waitKey(1) & 0xFF == ord('w'):
+        if cv2.waitKey(1) & 0xFF == 27:
             break
 
 cap.release()
