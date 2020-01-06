@@ -1,4 +1,4 @@
-# a.0.1
+# version a.0.1
 # code by EslerKang
 
 import cv2
@@ -12,7 +12,6 @@ cap = cv2.VideoCapture(CAM_NUM)
 
 font = cv2.FONT_HERSHEY_PLAIN
 
-# fps 표시를 위해 이전 시간 저
 prev_time = 0
 
 # 너비
