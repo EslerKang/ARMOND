@@ -4,11 +4,16 @@
 import cv2
 # import numpy as np
 import pyzbar.pyzbar as pyzbar
+import time
 
 CAM_NUM = 0
 
 cap = cv2.VideoCapture(CAM_NUM)
+
 font = cv2.FONT_HERSHEY_PLAIN
+
+# fps 표시를 위해 이전 시간 저
+prev_time = 0
 
 # 너비
 cap.set(3, 640)
@@ -22,7 +27,15 @@ if cap.isOpened():
         _, frame = cap.read()
 
         # 흑백영상으로 바꿈
-        # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+        # fps 계산, 출력
+        cur_time = time.time()
+        past_time = cur_time - prev_time
+        prev_time = cur_time
+        fps = 1/past_time
+        fps_str = "FPS : %.1f" % fps
+        cv2.putText(frame, fps_str, (0, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0))
 
         decodedObjects = pyzbar.decode(frame)
         for obj in decodedObjects:
@@ -52,6 +65,9 @@ if cap.isOpened():
         # w 키 입력시 종료
         if cv2.waitKey(1) & 0xFF == 27:
             break
+else:
+    print("can't open CAM_", CAM_NUM, sep='')
+    exit()
 
 cap.release()
 cv2.destroyAllWindows()
